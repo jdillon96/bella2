@@ -1,0 +1,18 @@
+{
+  "name": "bella2",
+  "version": "1.0.0",
+  "description": "Interpreter for CMSI 585",
+  "type": "module",
+  "main": "src/core.ts",
+  "scripts": {
+    "test": "node --experimental-transform-types --test \"src/**/*.test.ts\"",
+    "test:watch": "node --experimental-transform-types --test --watch \"src/**/*.test.ts\"",
+    "coverage": "node --experimental-transform-types --test --experimental-test-coverage --test-coverage-lines=100 --test-coverage-branches=100 --test-coverage-functions=100 \"src/**/*.test.ts\"",
+    "check": "tsc --noEmit"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "typescript": "^5.7.0"
+  }
+}
