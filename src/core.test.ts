@@ -12,6 +12,7 @@ import {
   identifier,
   numeral,
   printStmt,
+  interpret,
   program,
   standardLibrary,
   subscriptExp,
@@ -176,5 +177,9 @@ describe("expression factories", () => {
 describe("re-exports", () => {
   it("exposes the standard library", () => {
     assert.equal(standardLibrary.get("pi"), Math.PI);
+  });
+
+  it("exposes interpret, so this module is a complete entry point", () => {
+    assert.deepEqual(interpret(program(block([printStmt(numeral(5))]))), [5]);
   });
 });

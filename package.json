@@ -11,6 +11,9 @@
     "check": "tsc --noEmit"
   },
   "license": "MIT",
+  "engines": {
+    "node": ">=22.7.0"
+  },
   "devDependencies": {
     "@types/node": "^22.13.0",
     "typescript": "^5.7.0"

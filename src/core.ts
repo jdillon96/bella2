@@ -26,7 +26,10 @@ import {
 } from "./interpreter.ts";
 import type { Expression, Statement } from "./interpreter.ts";
 
-export { standardLibrary } from "./interpreter.ts";
+// Re-exported so that this module is a complete entry point: a client can build
+// a program and run it without also reaching into interpreter.ts.
+export { interpret, standardLibrary } from "./interpreter.ts";
+export type { Memory, Output, State, Value } from "./interpreter.ts";
 
 // -------- STRUCTURE --------
 

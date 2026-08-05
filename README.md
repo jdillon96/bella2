@@ -8,8 +8,11 @@ a type mismatch is a runtime error rather than a silent conversion.
 
 ## Running it
 
+Requires **Node 22.7.0 or later**. Then:
+
 ```sh
 npm install
+npm run coverage
 ```
 
 | Command | Description |
@@ -22,14 +25,20 @@ npm install
 There is no build step. Node runs the TypeScript sources directly through its
 experimental type transformation (`--experimental-transform-types`), and the
 tests use Node's built-in `node:test` runner and `node:assert`. No third-party
-runtime or test dependencies are involved.
+runtime or test dependencies are involved — `npm install` is needed only for
+`npm run check`, which uses `tsc`.
+
+The version floor is real rather than precautionary: the abstract syntax classes
+use TypeScript parameter properties (`constructor(public value: number) {}`),
+which are erased by transformation but not by stripping, so the weaker
+`--experimental-strip-types` mode available in 22.6 is not sufficient.
 
 ## Layout
 
 | File | Contents |
 | --- | --- |
 | [src/interpreter.ts](src/interpreter.ts) | Abstract syntax node classes, each with its own `interpret` method, plus the standard library |
-| [src/core.ts](src/core.ts) | Factory functions for building a structured program representation, one per production of the grammar |
+| [src/core.ts](src/core.ts) | Factory functions for building a structured program representation, one per production of the grammar; also re-exports `interpret`, so it is a complete entry point |
 | [src/interpreter.test.ts](src/interpreter.test.ts) | Behavioral tests for every node and every error path |
 | [src/core.test.ts](src/core.test.ts) | Tests that each factory builds the node it claims to |
 
@@ -46,9 +55,9 @@ abstract syntax. The factories in `core.ts` exist so this reads like the grammar
 
 ```ts
 import {
-  assignStmt, binaryExp, block, identifier, numeral, printStmt, program, varDecl, whileStmt,
+  assignStmt, binaryExp, block, identifier, interpret, numeral, printStmt,
+  program, varDecl, whileStmt,
 } from "./src/core.ts";
-import { interpret } from "./src/interpreter.ts";
 
 // let i = 0; while i < 3 { print i; i = i + 1; }
 const counter = program(
